@@ -1,0 +1,556 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Website Intake Form</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap">
+
+<style>
+  /* Layout: single-column centered form with grouped fieldsets */
+  :root {
+    --bg: #FAFAF8;
+    --surface: #FFFFFF;
+    --fg: #1A1A1A;
+    --fg-muted: #6B6B6B;
+    --border: #E0DDD8;
+    --accent: #2D5A3D;
+    --accent-light: #E8F0EB;
+    --accent-hover: #1E3F2B;
+    --input-bg: #FFFFFF;
+    --input-border: #D1CDC6;
+    --input-focus: #2D5A3D;
+    --error: #B84040;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141413;
+      --surface: #1E1E1C;
+      --fg: #EDEDEB;
+      --fg-muted: #9A9A96;
+      --border: #2E2E2B;
+      --accent: #5CA97A;
+      --accent-light: #1C2E22;
+      --accent-hover: #7CC49A;
+      --input-bg: #252523;
+      --input-border: #3A3A36;
+      --input-focus: #5CA97A;
+      --error: #D46B6B;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141413;
+    --surface: #1E1E1C;
+    --fg: #EDEDEB;
+    --fg-muted: #9A9A96;
+    --border: #2E2E2B;
+    --accent: #5CA97A;
+    --accent-light: #1C2E22;
+    --accent-hover: #7CC49A;
+    --input-bg: #252523;
+    --input-border: #3A3A36;
+    --input-focus: #5CA97A;
+    --error: #D46B6B;
+    color-scheme: dark;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 0;
+  }
+
+  .wrapper {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 48px 0 64px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 5vw, 2.25rem);
+    font-weight: 400;
+    margin: 0 0 12px;
+    text-wrap: balance;
+  }
+
+  .header p {
+    color: var(--fg-muted);
+    font-size: 15px;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  fieldset {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    padding: 28px 24px;
+    margin: 0 0 20px;
+  }
+
+  legend {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 400;
+    padding: 0 8px;
+    color: var(--fg);
+  }
+
+  .field {
+    margin-bottom: 20px;
+  }
+  .field:last-child {
+    margin-bottom: 0;
+  }
+
+  label.question {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: var(--fg);
+  }
+
+  .hint {
+    display: block;
+    font-size: 13px;
+    color: var(--fg-muted);
+    margin-bottom: 8px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="url"],
+  textarea,
+  select {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: var(--font-body);
+    font-size: 15px;
+    padding: 10px 14px;
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius);
+    background: var(--input-bg);
+    color: var(--fg);
+    transition: border-color 0.15s;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 3px var(--accent-light);
+  }
+
+  textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+
+  .check-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+  }
+  @media (max-width: 480px) {
+    .check-grid { grid-template-columns: 1fr; }
+  }
+
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .check-item input[type="checkbox"],
+  .check-item input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  .other-inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .other-inline input[type="text"] {
+    flex: 1;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 20px 0;
+    border: none;
+  }
+
+  .submit-area {
+    text-align: center;
+    margin-top: 32px;
+  }
+
+  button[type="submit"] {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius);
+    padding: 14px 48px;
+    cursor: pointer;
+    transition: background 0.15s;
+    letter-spacing: 0.01em;
+  }
+  button[type="submit"]:hover {
+    background: var(--accent-hover);
+  }
+  button[type="submit"]:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .submit-note {
+    font-size: 13px;
+    color: var(--fg-muted);
+    margin-top: 12px;
+  }
+
+  .required-star {
+    color: var(--error);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+
+<div class="wrapper">
+  <div class="header">
+    <h1>Website Project Questionnaire</h1>
+    <p>Fill out this form so I can get a clear picture of what you need.</p>
+  </div>
+
+  <form action="https://formsubmit.co/deja60@gmail.com" method="POST">
+    <!-- FormSubmit config -->
+    <input type="hidden" name="_subject" value="Website Intake Form Submission">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="true">
+    <input type="text" name="_honey" style="display:none">
+
+    <!-- 1. About You -->
+    <fieldset>
+      <legend>About You</legend>
+
+      <div class="field">
+        <label class="question" for="name">Your Name <span class="required-star">*</span></label>
+        <input type="text" id="name" name="Name" required>
+      </div>
+
+      <div class="field">
+        <label class="question" for="email">Email Address <span class="required-star">*</span></label>
+        <input type="email" id="email" name="Email" required>
+      </div>
+
+      <!--<div class="field">
+        <label class="question" for="phone">Phone Number</label>
+        <input type="text" id="phone" name="Phone">
+      </div>
+
+      <div class="field">
+        <label class="question" for="business">Business / Organization Name</label>
+        <input type="text" id="business" name="Business Name">
+      </div>-->
+    </fieldset>
+
+    <!-- 2. Purpose & Goals -->
+    <fieldset>
+      <legend>Purpose &amp; Goals</legend>
+
+      <div class="field">
+        <label class="question" for="site-purpose">What is this website for? <span class="required-star">*</span></label>
+        <span class="hint">e.g. business site, portfolio, online store, blog, personal brand</span>
+        <textarea id="site-purpose" name="Website Purpose" required></textarea>
+      </div>
+
+      <div class="field">
+        <label class="question" for="primary-action">What's the #1 thing you want visitors to do?</label>
+        <span class="hint">e.g. contact you, buy something, book an appointment, read your content</span>
+        <textarea id="primary-action" name="Primary Visitor Action"></textarea>
+      </div>
+
+      <div class="field">
+        <label class="question" for="problem">What problem does this site solve for you or your business?</label>
+        <textarea id="problem" name="Problem It Solves"></textarea>
+      </div>
+    </fieldset>
+
+    <!-- 3. Target Audience -->
+    <fieldset>
+      <legend>Target Audience</legend>
+
+      <div class="field">
+        <label class="question" for="audience">Who is the website for?</label>
+        <span class="hint">e.g. existing customers, new leads, employers, a specific industry or age group</span>
+        <textarea id="audience" name="Target Audience"></textarea>
+      </div>
+
+      <div class="field">
+        <label class="question" for="vibe">What should visitors feel or think when they land on the site?</label>
+        <span class="hint">e.g. professional, fun, trustworthy, cutting-edge</span>
+        <input type="text" id="vibe" name="Desired Impression">
+      </div>
+    </fieldset>
+
+    <!-- 4. Content & Pages -->
+    <fieldset>
+      <legend>Content &amp; Pages</legend>
+
+      <div class="field">
+        <label class="question">Which pages do you need?</label>
+        <span class="hint">Check all that apply</span>
+        <div class="check-grid">
+          <label class="check-item"><input type="checkbox" name="Pages Needed" value="Home"> Home</label>
+          <label class="check-item"><input type="checkbox" name="Pages Needed" value="About"> About</label>
+          <label class="check-item"><input type="checkbox" name="Pages Needed" value="Services / Products"> Services / Products</label>
+          <label class="check-item"><input type="checkbox" name="Pages Needed" value="Contact"> Contact</label>
+          <label class="check-item"><input type="checkbox" name="Pages Needed" value="Blog / News"> Blog / News</label>
+          <label class="check-item"><input type="checkbox" name="Pages Needed" value="Pricing"> Pricing</label>
+          <label class="check-item"><input type="checkbox" name="Pages Needed" value="FAQ"> FAQ</label>
+          <label class="check-item"><input type="checkbox" name="Pages Needed" value="Testimonials"> Testimonials</label>
+          <label class="check-item"><input type="checkbox" name="Pages Needed" value="Gallery / Portfolio"> Gallery / Portfolio</label>
+        </div>
+        <div class="other-inline" style="margin-top: 10px;">
+          <label class="check-item"><input type="checkbox" name="Pages Needed" value="Other" id="pages-other-check"> Other:</label>
+          <input type="text" name="Other Pages" placeholder="Describe other pages" style="flex:1;">
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="field">
+        <label class="question" for="content-ready">Do you already have written content (text, bios, descriptions)?</label>
+        <select id="content-ready" name="Content Ready">
+          <option value="" disabled selected>Choose one</option>
+          <option value="Yes, all ready to go">Yes, all ready to go</option>
+          <option value="Some of it">Some of it</option>
+          <option value="No, I need help with content">No, I need help with content</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="question" for="brand-assets">Do you have a logo, brand images, or professional photos?</label>
+        <select id="brand-assets" name="Brand Assets">
+          <option value="" disabled selected>Choose one</option>
+          <option value="Yes">Yes</option>
+          <option value="Some, but need more">Some, but need more</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="question" for="ongoing-content">Will the site need regular content updates?</label>
+        <span class="hint">e.g. weekly blog posts, seasonal updates, rarely</span>
+        <input type="text" id="ongoing-content" name="Content Update Frequency">
+      </div>
+    </fieldset>
+
+    <!-- 5. Design Preferences -->
+    <fieldset>
+      <legend>Design Preferences</legend>
+
+      <div class="field">
+        <label class="question" for="liked-sites">List 2–3 websites you like and what you like about them</label>
+        <textarea id="liked-sites" name="Liked Websites"></textarea>
+      </div>
+
+      <div class="field">
+        <label class="question" for="disliked-sites">Any websites you do NOT want yours to look like? Why?</label>
+        <textarea id="disliked-sites" name="Disliked Websites"></textarea>
+      </div>
+
+      <div class="field">
+        <label class="question" for="brand-colors">Do you have brand colors, fonts, or a style guide?</label>
+        <textarea id="brand-colors" name="Brand Colors and Fonts" placeholder="List colors, fonts, or say 'no'"></textarea>
+      </div>
+
+      <div class="field">
+        <label class="question">Which style best describes what you want?</label>
+        <div class="check-grid">
+          <label class="check-item"><input type="radio" name="Design Style" value="Clean and minimal"> Clean &amp; minimal</label>
+          <label class="check-item"><input type="radio" name="Design Style" value="Bold and colorful"> Bold &amp; colorful</label>
+          <label class="check-item"><input type="radio" name="Design Style" value="Dark and modern"> Dark &amp; modern</label>
+          <label class="check-item"><input type="radio" name="Design Style" value="Warm and friendly"> Warm &amp; friendly</label>
+          <label class="check-item"><input type="radio" name="Design Style" value="Corporate and polished"> Corporate &amp; polished</label>
+          <label class="check-item"><input type="radio" name="Design Style" value="Other"> Other</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- 6. Functionality & Features -->
+    <fieldset>
+      <legend>Functionality &amp; Features</legend>
+
+      <div class="field">
+        <label class="question">Which features do you need?</label>
+        <span class="hint">Check all that apply</span>
+        <div class="check-grid">
+          <label class="check-item"><input type="checkbox" name="Features Needed" value="Contact form"> Contact form</label>
+          <label class="check-item"><input type="checkbox" name="Features Needed" value="Online booking"> Online booking</label>
+          <label class="check-item"><input type="checkbox" name="Features Needed" value="E-commerce / payments"> E-commerce / payments</label>
+          <label class="check-item"><input type="checkbox" name="Features Needed" value="User accounts / login"> User accounts / login</label>
+          <label class="check-item"><input type="checkbox" name="Features Needed" value="Newsletter signup"> Newsletter signup</label>
+          <label class="check-item"><input type="checkbox" name="Features Needed" value="Social media integration"> Social media links</label>
+          <label class="check-item"><input type="checkbox" name="Features Needed" value="Live chat"> Live chat</label>
+          <label class="check-item"><input type="checkbox" name="Features Needed" value="Photo / video gallery"> Photo / video gallery</label>
+          <label class="check-item"><input type="checkbox" name="Features Needed" value="Search"> Search</label>
+          <label class="check-item"><input type="checkbox" name="Features Needed" value="Maps / location"> Maps / location</label>
+          <label class="check-item"><input type="checkbox" name="Features Needed" value="CMS (self-edit content)"> CMS (edit content myself)</label>
+        </div>
+        <div class="other-inline" style="margin-top: 10px;">
+          <label class="check-item"><input type="checkbox" name="Features Needed" value="Other"> Other:</label>
+          <input type="text" name="Other Features" placeholder="Describe other features" style="flex:1;">
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="field">
+        <label class="question" for="integrations">Any specific integrations needed?</label>
+        <span class="hint">e.g. payment processors, booking tools, CRM, email marketing</span>
+        <textarea id="integrations" name="Integrations"></textarea>
+      </div>
+    </fieldset>
+
+    <!-- 7. Technical & Hosting -->
+    <fieldset>
+      <legend>Technical &amp; Hosting</legend>
+
+      <div class="field">
+        <label class="question" for="domain">Do you own a domain name? If so, what is it?</label>
+        <input type="text" id="domain" name="Domain Name" placeholder="e.g. mybusiness.com or 'no'">
+      </div>
+
+      <div class="field">
+        <label class="question" for="hosting">Do you have web hosting? If so, who with?</label>
+        <input type="text" id="hosting" name="Hosting Provider" placeholder="e.g. GoDaddy, Bluehost, or 'no'">
+      </div>
+
+      <div class="field">
+        <label class="question" for="domain-email">Do you need email at your domain?</label>
+        <span class="hint">e.g. you@yourbusiness.com</span>
+        <select id="domain-email" name="Domain Email Needed">
+          <option value="" disabled selected>Choose one</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+          <option value="Already have it">Already have it</option>
+        </select>
+      </div>
+
+    </fieldset>
+
+    <!-- 8. Mobile & SEO -->
+    <fieldset>
+      <legend>Mobile &amp; SEO</legend>
+
+      <div class="field">
+        <label class="question">How important is mobile?</label>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <label class="check-item"><input type="radio" name="Mobile Importance" value="Essential — most audience on mobile"> Essential — most of my audience is on mobile</label>
+          <label class="check-item"><input type="radio" name="Mobile Importance" value="Important but not top priority"> Important but not the top priority</label>
+          <label class="check-item"><input type="radio" name="Mobile Importance" value="Not very important"> Not very important</label>
+        </div>
+      </div>
+
+    </fieldset>
+
+    <!-- 10. Maintenance -->
+    <fieldset>
+      <legend>Maintenance &amp; Ongoing Needs</legend>
+
+      <div class="field">
+        <label class="question">Who will update the site after launch?</label>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <label class="check-item"><input type="radio" name="Site Maintainer" value="I want to do it myself"> I want to do it myself (I need an easy editor)</label>
+          <label class="check-item"><input type="radio" name="Site Maintainer" value="I need you to handle updates"> I'll need you to handle updates</label>
+          <label class="check-item"><input type="radio" name="Site Maintainer" value="Someone else on my team"> Someone else on my team</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="question" for="update-freq">How often will content need to change?</label>
+        <input type="text" id="update-freq" name="Update Frequency" placeholder="e.g. weekly, monthly, rarely">
+      </div>
+
+      <div class="field">
+        <label class="question" for="ongoing-support">Do you need ongoing support, hosting management, or backups?</label>
+        <select id="ongoing-support" name="Ongoing Support Needed">
+          <option value="" disabled selected>Choose one</option>
+          <option value="Yes">Yes</option>
+          <option value="Maybe">Maybe — let's discuss</option>
+          <option value="No">No, I'll handle it</option>
+        </select>
+      </div>
+    </fieldset>
+
+    <!-- 11. Success Metrics -->
+    <fieldset>
+      <legend>Success Metrics</legend>
+
+      <div class="field">
+        <label class="question">How will you know the website is working?</label>
+        <span class="hint">Check all that apply</span>
+        <div class="check-grid">
+          <label class="check-item"><input type="checkbox" name="Success Metrics" value="More calls/emails"> More calls or emails</label>
+          <label class="check-item"><input type="checkbox" name="Success Metrics" value="More online sales"> More online sales</label>
+          <label class="check-item"><input type="checkbox" name="Success Metrics" value="More bookings"> More bookings</label>
+          <label class="check-item"><input type="checkbox" name="Success Metrics" value="Better search rankings"> Better search rankings</label>
+          <label class="check-item"><input type="checkbox" name="Success Metrics" value="More social followers"> More social followers</label>
+          <label class="check-item"><input type="checkbox" name="Success Metrics" value="Professional online presence"> Professional online presence</label>
+        </div>
+        <div class="other-inline" style="margin-top: 10px;">
+          <label class="check-item"><input type="checkbox" name="Success Metrics" value="Other"> Other:</label>
+          <input type="text" name="Other Success Metrics" placeholder="Describe" style="flex:1;">
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- 12. Anything Else -->
+    <fieldset>
+      <legend>Anything Else</legend>
+
+      <div class="field">
+        <label class="question" for="anything-else">Is there anything else you want me to know?</label>
+        <span class="hint">Features, pet peeves, things you've loved or hated on other sites</span>
+        <textarea id="anything-else" name="Additional Notes" style="min-height: 120px;"></textarea>
+      </div>
+    </fieldset>
+
+    <div class="submit-area">
+      <button type="submit">Submit Questionnaire</button>
+      <p class="submit-note">Your answers will be emailed directly to me. I'll follow up within a few days.</p>
+    </div>
+  </form>
+</div>
+
+</body></html>
